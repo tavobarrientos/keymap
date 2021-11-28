@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define USE_SERIAL_PD2
 
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 200
+#define TAPPING_TERM 300
 
 #ifdef RGBLIGHT_ENABLE
     #undef RGBLED_NUM
@@ -43,7 +43,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
     #define RGBLIGHT_HUE_STEP 10
     #define RGBLIGHT_SAT_STEP 17
     #define RGBLIGHT_VAL_STEP 17
-    #define RGBLIGHT_SLEEP // If the host goes to sleet, the keyboard also.
+    #define RGBLIGHT_SLEEP // If the host goes to sleep, the keyboard also.
 #endif
 
 #define OLED_FONT_H "keyboards/crkbd/keymaps/tavobarrientos/glcdfont.c"

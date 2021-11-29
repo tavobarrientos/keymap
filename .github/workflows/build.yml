@@ -18,18 +18,18 @@ jobs:
       - name: Create Keymap Directory
         run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
       - name: Copy keymap to correct folder
-        run: cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos/
-      - name: Compile Firmware
-        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
-      - name: Publish the Artifact to Github Release s
-        uses: actions/upload-artifact@v2
-        with:
-          name: Tavobarrientos Corne Custom Keymap
-          path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
-      - name: Tagged Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'regs/tags/')
-        with:
-          files: |
-            qmk_firmware/crkbd_rev1_tavobarrientos.hex
+        run: cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
+      # - name: Compile Firmware
+      #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
+      # - name: Publish the Artifact to Github Release s
+      #   uses: actions/upload-artifact@v2
+      #   with:
+      #     name: Tavobarrientos Corne Custom Keymap
+      #     path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
+      # - name: Tagged Release
+      #   uses: softprops/action-gh-release@v1
+      #   if: startsWith(github.ref, 'regs/tags/')
+      #   with:
+      #     files: |
+      #       qmk_firmware/crkbd_rev1_tavobarrientos.hex
         

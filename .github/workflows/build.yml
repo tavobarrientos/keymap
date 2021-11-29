@@ -25,7 +25,7 @@ jobs:
           name: Tavobarrientos Corne Custom Keymap
           path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
       - name: Tagged Release
-        uses: softprops/actions-gh-release@v1
+        uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'regs/tags/')
         with:
           files: |

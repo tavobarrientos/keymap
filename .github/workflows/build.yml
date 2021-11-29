@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
       - name: Clone QMK
         run: git clone https://github.com/qmk/qmk_firmware.git
       # - name: Install QMK Dependencies
@@ -15,10 +15,13 @@ jobs:
       #   run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
       # - name: Install QMK submodules
       #   run: cd qmk_firmware && make git-submodule
-      - name: Create Keymap Directory
-        run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
-      - name: Copy keymap to correct folder
-        run:  ls qmk_firmware/keyboards/crkbd/keymaps/tavobarientos #cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
+      - name: Copy keymap to QMK Keyboards directory
+        uses: canastro/copy-file-action@master
+        with:
+          source: "./"
+          target: "qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos"
+      - name: LS
+          run: ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       # - name: Compile Firmware
       #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
       # - name: Publish the Artifact to Github Release s

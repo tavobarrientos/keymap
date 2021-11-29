@@ -16,7 +16,7 @@ jobs:
       - name: Install QMK submodules
         run: cd qmk_firmware && make git-submodule
       - name: Copy keymap to correct folder
-        run: mkdir /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos/ && cp -rp . /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos/
+        run: cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos/
       - name: Compile Firmware
         run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
       - name: Publish the Artifact to Github Release s

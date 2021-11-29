@@ -9,12 +9,12 @@ jobs:
       - uses: actions/checkout@master
       - name: Clone QMK
         run: git clone https://github.com/qmk/qmk_firmware.git
-      # - name: Install QMK Dependencies
-      #   run: cd qmk_firmware && ./util/qmk_install.sh
-      # - name: GCC for Ubuntu
-      #   run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
-      # - name: Install QMK submodules
-      #   run: cd qmk_firmware && make git-submodule
+      - name: Install QMK Dependencies
+        run: cd qmk_firmware && ./util/qmk_install.sh
+      - name: GCC for Ubuntu
+        run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
+      - name: Install QMK submodules
+        run: cd qmk_firmware && make git-submodule
       - name: Create Keymap Directory
         run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
       - name: Copy keymap to QMK Keyboards directory
@@ -22,19 +22,17 @@ jobs:
         with:
           source: ./*.*
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
-      - name: LS
-        run: ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
-      # - name: Compile Firmware
-      #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
-      # - name: Publish the Artifact to Github Release s
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: Tavobarrientos Corne Custom Keymap
-      #     path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
-      # - name: Tagged Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'regs/tags/')
-      #   with:
-      #     files: |
-      #       qmk_firmware/crkbd_rev1_tavobarrientos.hex
+      - name: Compile Firmware
+        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
+      - name: Publish the Artifact to Github Release s
+        uses: actions/upload-artifact@v2
+        with:
+          name: Tavobarrientos Corne Custom Keymap
+          path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
+      - name: Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'regs/tags/')
+        with:
+          files: |
+            qmk_firmware/crkbd_rev1_tavobarrientos.hex
         

@@ -21,7 +21,7 @@ jobs:
           source: ./
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       - name: LS
-          run: ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
+        run: ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       # - name: Compile Firmware
       #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
       # - name: Publish the Artifact to Github Release s

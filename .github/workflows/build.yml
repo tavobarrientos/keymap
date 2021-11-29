@@ -18,7 +18,7 @@ jobs:
       - name: Create Keymap Directory
         run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
       - name: Copy keymap to correct folder
-        run: cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
+        run:  ls /qmk_firmware/keyboards/crkbd/keymaps #cp -f * /qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       # - name: Compile Firmware
       #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos
       # - name: Publish the Artifact to Github Release s

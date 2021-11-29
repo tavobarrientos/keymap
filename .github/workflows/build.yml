@@ -18,7 +18,7 @@ jobs:
       - name: Copy keymap to QMK Keyboards directory
         uses: canastro/copy-file-action@master
         with:
-          source: ./
+          source: ./*.*
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       - name: LS
         run: ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos

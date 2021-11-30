@@ -355,12 +355,9 @@ void render_bootmagic_status(bool status) {
 }
 
 void oled_task_user(void) {
-    if (is_master) {
-        // oled_render_layer_state();
-        // oled_render_keylog();
+    if (is_keyboard_master()) {
         render_status_main();
     } else {
-        // oled_render_logo();
         render_status_secondary();
     }
 }
@@ -397,26 +394,26 @@ void matrix_init_user(void) {
 
 void rgb_matrix_indicators_user(void) {
   #ifdef RGB_MATRIX_ENABLE
-  switch (biton32(layer_state)) {
-    case _RAISE:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-          rgb_matrix_set_color(i, 255, 0, 0);
-      }
-      break;
+//   switch (biton32(layer_state)) {
+//     case _RAISE:
+//       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+//           rgb_matrix_set_color(i, 255, 0, 0);
+//       }
+//       break;
 
-    case _LOWER:
-      for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-         rgb_matrix_set_color(i, 0, 0, 255);
-      }
-      break;
+//     case _LOWER:
+//       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+//          rgb_matrix_set_color(i, 0, 0, 255);
+//       }
+//       break;
 
-    default:
-        if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-                  for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-          rgb_matrix_set_color(i, 0, 255, 0);
-      }
-       }
-      break;
-  }
+//     default:
+//         if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
+//                   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
+//           rgb_matrix_set_color(i, 0, 255, 0);
+//       }
+//        }
+//       break;
+//   }
   #endif
 }

@@ -5,43 +5,36 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Compile QMK Keyboard
-        uses: shawntoffel/qmk-firmware-github-action@master
+    steps: 
+      - uses: actions/checkout@master
+      - name: Clone QMK
+        run: git clone https://github.com/qmk/qmk_firmware.git
+      - name: Install QMK Dependencies
+        run: cd qmk_firmware && ./util/qmk_install.sh
+      - name: GCC for Ubuntu
+        run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
+      - name: Install QMK submodules
+        run: cd qmk_firmware && make git-submodule
+      - name: Install QMK Dependencies
+        run
+      - name: Create Keymap Directory
+        run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
+      - name: Copy keymap to QMK Keyboards directory
+        uses: canastro/copy-file-action@master
         with:
-          name: tavobarrientos
-          flavor: crkbd
-          keymap: tavobarrientos
-      - name: ls
-        run: ls
-      # - uses: actions/checkout@master
-      # - name: Clone QMK
-      #   run: git clone https://github.com/qmk/qmk_firmware.git
-      # - name: Install QMK Dependencies
-      #   run: cd qmk_firmware && ./util/qmk_install.sh
-      # - name: GCC for Ubuntu
-      #   run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
-      # - name: Install QMK submodules
-      #   run: cd qmk_firmware && make git-submodule
-      # - name: Install QMK Dependencies
-      # - name: Create Keymap Directory
-      #   run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
-      # - name: Copy keymap to QMK Keyboards directory
-      #   uses: canastro/copy-file-action@master
-      #   with:
-      #     source: ./*.*
-      #     target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
-      # - name: Compile Firmware
-      #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:distclean
-      # - name: Publish the Artifact to Github Releases
-      #   uses: actions/upload-artifact@v2
-      #   with:
-      #     name: Tavobarrientos Corne Custom Keymap
-      #     path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
-      # - name: Tagged Release
-      #   uses: softprops/action-gh-release@v1
-      #   if: startsWith(github.ref, 'regs/tags/')
-      #   with:
-      #     files: |
-      #       qmk_firmware/crkbd_rev1_tavobarrientos.hex
+          source: ./*.*
+          target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
+      - name: Compile Firmware
+        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:distclean
+      - name: Publish the Artifact to Github Releases
+        uses: actions/upload-artifact@v2
+        with:
+          name: Tavobarrientos Corne Custom Keymap
+          path: qmk_firmware/crkbd_rev1_tavobarrientos.hex
+      - name: Tagged Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'regs/tags/')
+        with:
+          files: |
+            qmk_firmware/crkbd_rev1_tavobarrientos.hex
         

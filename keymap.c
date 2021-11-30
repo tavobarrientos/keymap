@@ -33,15 +33,27 @@ enum layers {
     _ADJUST
 };
 
-// Tap Dance Definitions
+enum custom_keycodes {
+    RGBRST
+};
 
+// Tap Dance Definitions
+enum {
+    TD_QUOT,
+    TD_SCLN,
+};
+
+qk_tap_dance_action_t tap_dance_actions[] = {
+    [TD_QUOT] = ACTION_TAP_DANCE_DOUBLE(KC_QUOT, LSFT(KC_QUOT)),
+    [TD_SCLN] = ACTION_TAP_DANCE_DOUBLE(KC_SCLN, LSFT(KC_SCLN)),
+};
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_QWERTY] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_QUOT,
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, TD(TD_SCLN), TD(TD_QUOT),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  RSFT_T(KC_ESC),
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -76,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_ADJUST] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-        RESET, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+        RESET, RGBRST, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       RGB_TOG, RGB_HUI, RGB_SAI, RGB_VAI, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -285,32 +297,6 @@ void render_status_secondary(void) {
     render_mod_status_ctrl_shift(get_mods()|get_oneshot_mods());
 }
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    //uint8_t layer = biton32(state);
-
-    // switch (layer) {
-    //     case _LOWER:
-    //         rgblight_setrgb(RGB_AZURE);
-    //         rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    //         break;
-    //     case _RAISE:
-    //         rgblight_setrgb(RGB_CYAN);
-    //         rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    //         break;
-    //     case _ADJUST:
-    //         rgblight_setrgb(RGB_CORAL);
-    //         rgblight_mode_noeeprom(RGBLIGHT_MODE_STATIC_LIGHT);
-    //         break;
-    //     default:
-    //         rgblight_setrgb(RGB_MAGENTA);
-    //         rgblight_mode_noeeprom(RGBLIGHT_MODE_BREATHING);
-    //         break;
-    // }
-
-    return state;
-}
-
-
 char keylog_str[24] = {};
 
 const char code_to_name[60] = {
@@ -355,17 +341,36 @@ void render_bootmagic_status(bool status) {
 }
 
 void oled_task_user(void) {
-    if (is_keyboard_master()) {
-        render_status_main();
-    } else {
-        render_status_secondary();
-    }
+    // if (is_keyboard_master()) {
+    //     render_status_main();
+    // } else {
+    //     render_status_secondary();
+    // }
+
+    render_status_main();
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   if (record->event.pressed) {
     set_keylog(keycode, record);
+
+    if (keycode == RGBRST) {
+      #ifdef RGBLIGHT_ENABLE
+        if (record->event.pressed) {
+          eeconfig_update_rgblight_default();
+          rgblight_enable();
+          RGB_current_mode = rgblight_config.mode;
+        }
+      #endif
+      #ifdef RGB_MATRIX_ENABLE
+        if (record->event.pressed) {
+          eeconfig_update_rgb_matrix_default();
+          rgb_matrix_enable();
+        }
+      #endif
+    }
   }
+
   return true;
 }
 
@@ -393,30 +398,4 @@ void matrix_init_user(void) {
 
     #ifdef RGB_MATRIX_ENABLE
     #endif
-}
-
-void rgb_matrix_indicators_user(void) {
-  #ifdef RGB_MATRIX_ENABLE
-//   switch (biton32(layer_state)) {
-//     case _RAISE:
-//       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-//           rgb_matrix_set_color(i, 255, 0, 0);
-//       }
-//       break;
-
-//     case _LOWER:
-//       for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-//          rgb_matrix_set_color(i, 0, 0, 255);
-//       }
-//       break;
-
-//     default:
-//         if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) {
-//                   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
-//           rgb_matrix_set_color(i, 0, 255, 0);
-//       }
-//        }
-//       break;
-//   }
-  #endif
 }

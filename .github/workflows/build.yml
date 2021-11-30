@@ -31,7 +31,7 @@ jobs:
           source: ./*.*
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       - name: Compile Firmware
-        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:distclean
+        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:clean
       # - name: Publish the Artifact to Github Releases
       #   uses: actions/upload-artifact@v2
       #   with:

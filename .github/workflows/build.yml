@@ -31,7 +31,7 @@ jobs:
           source: ./*.*
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       - name: Compile Firmware
-        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:clean
+        run: qmk compile -kb crkbd/rev1 -km tavobarrientos
       - name: LS
         run: ls qmk_firmware/ && ls && ls qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
       - name: LS1

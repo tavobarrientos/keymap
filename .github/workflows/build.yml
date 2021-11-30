@@ -6,6 +6,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps: 
+      - uses: actions/setup-python@v1
       - uses: actions/checkout@master
       - name: Clone QMK
         run: git clone https://github.com/qmk/qmk_firmware.git
@@ -16,7 +17,6 @@ jobs:
       - name: Install QMK submodules
         run: cd qmk_firmware && make git-submodule
       - name: INstall QMK Cli
-        uses: actions/setup-python@v1
         uses: BSFishy/pip-action@v1
         with:
           packages: |

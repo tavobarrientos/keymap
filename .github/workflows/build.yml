@@ -15,8 +15,14 @@ jobs:
         run: curl -o ./update-gcc10-ubuntu.sh https://raw.githubusercontent.com/radunanescu/ubuntu_gcc_armtoolchain10/main/update-gcc10-ubuntu.sh && chmod +x update-gcc10-ubuntu.sh && sudo ./update-gcc10-ubuntu.sh
       - name: Install QMK submodules
         run: cd qmk_firmware && make git-submodule
+      - name: INstall QMK Cli
+        uses: actions/setup-python@v1
+        uses: BSFishy/pip-action@v1
+        with:
+          packages: |
+            qmk
       - name: Install QMK Dependencies
-        run
+        run: qmk setup
       - name: Create Keymap Directory
         run: cd qmk_firmware && cd keyboards && cd crkbd && cd keymaps && mkdir tavobarrientos
       - name: Copy keymap to QMK Keyboards directory
@@ -24,10 +30,8 @@ jobs:
         with:
           source: ./*.*
           target: qmk_firmware/keyboards/crkbd/keymaps/tavobarrientos
-      - name: Test QMK cli
-        run: qmk setup
-      # - name: Compile Firmware
-      #   run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:distclean
+      - name: Compile Firmware
+        run: cd qmk_firmware && make crkbd/rev1:tavobarrientos:distclean
       # - name: Publish the Artifact to Github Releases
       #   uses: actions/upload-artifact@v2
       #   with:

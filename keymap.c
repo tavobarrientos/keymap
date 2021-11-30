@@ -390,6 +390,9 @@ void matrix_init_user(void) {
     #ifdef RGBLIGHT_ENABLE
       RGB_current_mode = rgblight_config.mode;
     #endif
+
+    #ifdef RGB_MATRIX_ENABLE
+    #endif
 }
 
 void rgb_matrix_indicators_user(void) {

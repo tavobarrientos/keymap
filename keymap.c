@@ -343,13 +343,11 @@ void render_bootmagic_status(bool status) {
 }
 
 void oled_task_user(void) {
-    // if (is_keyboard_master()) {
-    //     render_status_main();
-    // } else {
-    //     render_status_secondary();
-    // }
-
-    render_status_main();
+    if (is_keyboard_master()) {
+        render_status_main();
+    } else {
+        render_status_secondary();
+    }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {

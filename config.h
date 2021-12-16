@@ -31,7 +31,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define USE_SERIAL_PD2
 
 #define TAPPING_FORCE_HOLD
-#define TAPPING_TERM 200
+#define TAPPING_TERM 400
 
 #ifdef RGBLIGHT_ENABLE
     #undef RGBLED_NUM
@@ -88,7 +88,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define DISABLE_RGB_MATRIX_CYCLE_OUT_IN_DUAL
 #    define DISABLE_RGB_MATRIX_CYCLE_PINWHEEL
 #    define DISABLE_RGB_MATRIX_CYCLE_SPIRAL
-#    define ENABLE_RGB_MATRIX_DUAL_BEACON
+#    define DISABLE_RGB_MATRIX_DUAL_BEACON
 #    define DISABLE_RGB_MATRIX_RAINBOW_BEACON
 #    define DISABLE_RGB_MATRIX_RAINBOW_PINWHEELS
 #    define DISABLE_RGB_MATRIX_RAINDROPS
@@ -115,4 +115,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #    define DISABLE_RGB_MATRIX_MULTISPLASH
 #    define DISABLE_RGB_MATRIX_SOLID_SPLASH
 #    define DISABLE_RGB_MATRIX_SOLID_MULTISPLASH
+
+
+#define ENABLE_CUSTOM_DUAL_BEACON
 #endif

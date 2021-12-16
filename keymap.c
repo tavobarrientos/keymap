@@ -389,6 +389,7 @@ void suspend_wakeup_init_keymap(void) {
     rgb_matrix_set_suspend_state(false);
 }
 
+
 #endif
 
 void matrix_init_user(void) {
